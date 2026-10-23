@@ -33,7 +33,7 @@ export function Socials() {
                 <a href={discord.url} {...external} className="notch group relative flex items-center gap-4 overflow-hidden bg-discord px-5 py-5 text-white transition-colors hover:bg-discord-dark">
                   <DiscordIcon className="h-9 w-9 shrink-0" />
                   <span className="min-w-0 flex-1">
-                    <span className="block font-display text-xl font-bold uppercase tracking-wide">Join Discord</span>
+                    <span className="block font-display text-lg uppercase tracking-wide">Join Discord</span>
                     <span className="block truncate text-sm text-white/75">{prettyUrl(discord.url)}</span>
                   </span>
                   <ArrowUpRightIcon className="h-5 w-5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

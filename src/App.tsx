@@ -3,7 +3,7 @@ import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
 import { Members } from './components/Members';
-import { Ticker } from './components/Ornaments';
+import { Circuit, Ticker } from './components/Ornaments';
 import { Socials } from './components/Socials';
 import { site } from './data/site';
 
@@ -22,7 +22,9 @@ export default function App() {
         <Ticker words={site.ticker} />
         <Members />
         <div className="relative overflow-hidden border-y border-line bg-night">
-          <div aria-hidden="true" className="ornament-grid absolute inset-0 opacity-60" />
+          <div aria-hidden="true" className="ornament-hex absolute inset-0" />
+          <div aria-hidden="true" className="ornament-stars absolute inset-0 opacity-60" />
+          <Circuit className="absolute -left-8 bottom-4 hidden w-52 text-blue/20 xl:block" />
           <div className="wrap relative grid gap-16 py-20 md:py-24 lg:grid-cols-[1.2fr_1fr] lg:gap-24">
             <About />
             <Socials />

@@ -19,8 +19,8 @@ export function Header() {
     <header className="sticky top-0 z-40 border-b border-line bg-ink/90 backdrop-blur-md">
       <div className="wrap flex h-16 items-center gap-8">
         <a href="#home" onClick={close} className="flex items-center gap-3">
-          <Logo className="h-9 w-auto" />
-          <span className="font-display text-xl font-bold uppercase tracking-wide">
+          <Logo className="h-10 w-10 rounded-md" />
+          <span className="font-display text-lg uppercase tracking-wide">
             <Wordmark />
           </span>
         </a>
@@ -31,7 +31,7 @@ export function Header() {
               <li key={item.href}>
                 <a href={item.href} className="group relative px-3 py-2 text-sm font-medium text-dim transition-colors hover:text-white">
                   {item.label}
-                  <span aria-hidden="true" className="absolute inset-x-3 -bottom-0.5 h-px origin-left scale-x-0 bg-cyan transition-transform group-hover:scale-x-100" />
+                  <span aria-hidden="true" className="absolute inset-x-3 -bottom-0.5 h-px origin-left scale-x-0 bg-gradient-to-r from-cyan to-violet transition-transform group-hover:scale-x-100" />
                 </a>
               </li>
             ))}
@@ -63,9 +63,9 @@ export function Header() {
           <ul className="wrap py-2">
             {NAV.map((item) => (
               <li key={item.href} className="border-b border-line/60 last:border-0">
-                <a href={item.href} onClick={close} className="flex items-center justify-between py-3.5 font-display text-lg font-semibold uppercase tracking-wide text-dim hover:text-white">
+                <a href={item.href} onClick={close} className="flex items-center justify-between py-3.5 font-display text-base uppercase tracking-wider text-dim hover:text-white">
                   {item.label}
-                  <span aria-hidden="true" className="h-1.5 w-1.5 rotate-45 bg-cyan/60" />
+                  <span aria-hidden="true" className="hex h-2.5 w-2 bg-gradient-to-b from-cyan to-violet" />
                 </a>
               </li>
             ))}

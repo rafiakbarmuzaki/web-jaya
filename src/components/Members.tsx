@@ -8,28 +8,28 @@ import { SectionHeading } from './SectionHeading';
 const ROLES: Role[] = ['CEO', 'Admin', 'Member'];
 type Filter = 'All' | Role;
 
-const ROLE_STYLE: Record<Role, { text: string; avatar: string; chip: string; bar: string; grid: string; featured: boolean }> = {
+const ROLE_STYLE: Record<Role, { text: string; frame: string; chip: string; bar: string; grid: string; featured: boolean }> = {
   CEO: {
     text: 'text-cyan',
-    avatar: 'bg-cyan/15 text-cyan ring-cyan/50',
+    frame: 'bg-gradient-to-b from-cyan to-blue',
     chip: 'bg-cyan/10 text-cyan',
-    bar: 'bg-cyan',
+    bar: 'bg-gradient-to-b from-cyan to-blue',
     grid: 'grid-cols-1 sm:grid-cols-3',
     featured: true,
   },
   Admin: {
-    text: 'text-blue',
-    avatar: 'bg-blue/15 text-blue ring-blue/50',
-    chip: 'bg-blue/10 text-blue',
-    bar: 'bg-blue',
+    text: 'text-[#9db8ff]',
+    frame: 'bg-gradient-to-b from-blue to-violet',
+    chip: 'bg-blue/10 text-[#9db8ff]',
+    bar: 'bg-gradient-to-b from-blue to-violet',
     grid: 'grid-cols-2 lg:grid-cols-4',
     featured: true,
   },
   Member: {
     text: 'text-dim',
-    avatar: 'bg-white/[0.06] text-dim ring-white/10',
+    frame: 'bg-[#2a3654]',
     chip: 'bg-white/5 text-dim',
-    bar: 'bg-white/20',
+    bar: 'bg-[#2a3654]',
     grid: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
     featured: false,
   },
@@ -43,14 +43,18 @@ function initials(name: string): string {
   return parts.length > 1 ? (parts[0][0] + last[0]).toUpperCase() : name.slice(0, 2).toUpperCase();
 }
 
+/** Hexagon avatar, echoing the shield in the logo. */
 function Avatar({ member, large }: { member: Member; large: boolean }) {
-  const cls = cn(large ? 'h-12 w-12 text-base' : 'h-9 w-9 text-xs', 'shrink-0 rounded-full ring-1', ROLE_STYLE[member.role].avatar);
-  if (member.photo) {
-    return <img src={asset(member.photo)} alt="" loading="lazy" decoding="async" className={cn(cls, 'object-cover')} />;
-  }
+  const style = ROLE_STYLE[member.role];
   return (
-    <span aria-hidden="true" className={cn(cls, 'flex items-center justify-center font-display font-bold tracking-wide')}>
-      {initials(member.name)}
+    <span aria-hidden="true" className={cn('hex relative shrink-0', large ? 'h-14 w-12' : 'h-11 w-10', style.frame)}>
+      <span className="hex absolute inset-[2px] flex items-center justify-center overflow-hidden bg-panel">
+        {member.photo ? (
+          <img src={asset(member.photo)} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
+        ) : (
+          <span className={cn('font-display', large ? 'text-sm' : 'text-[11px]', style.text)}>{initials(member.name)}</span>
+        )}
+      </span>
     </span>
   );
 }
@@ -101,9 +105,10 @@ export function Members() {
   };
 
   return (
-    <section id="members" aria-labelledby="members-title" className="py-20 md:py-28">
+    <section id="members" aria-labelledby="members-title" className="relative overflow-hidden py-20 md:py-28">
+      <div aria-hidden="true" className="ornament-stars absolute inset-0 opacity-40" />
       <div className="wrap relative">
-        <span aria-hidden="true" className="text-outline pointer-events-none absolute -top-6 right-4 hidden select-none font-display text-[10rem] font-extrabold leading-none sm:right-6 lg:right-8 lg:block">
+        <span aria-hidden="true" className="text-outline pointer-events-none absolute -top-4 right-4 hidden select-none font-display text-[9rem] leading-none sm:right-6 lg:right-8 lg:block">
           {members.length}
         </span>
 
@@ -111,7 +116,7 @@ export function Members() {
           {members.length} orang · {ROLES.map((r) => `${counts[r]} ${r}`).join(' · ')}
         </SectionHeading>
 
-        <div className="mt-10 flex flex-col gap-2 rounded-lg border border-line bg-panel/70 p-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-10 flex flex-col gap-2 rounded-lg border border-line bg-panel/80 p-2 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative sm:w-80">
             <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-mute" />
             <input
@@ -134,7 +139,7 @@ export function Members() {
                   aria-pressed={active}
                   className={cn(
                     'flex h-10 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-sm font-medium transition-colors sm:flex-none sm:px-4',
-                    active ? 'bg-cyan/10 text-white ring-1 ring-inset ring-cyan/50' : 'text-dim hover:bg-white/5 hover:text-white',
+                    active ? 'bg-gradient-to-r from-cyan/15 to-violet/15 text-white ring-1 ring-inset ring-cyan/50' : 'text-dim hover:bg-white/5 hover:text-white',
                   )}
                 >
                   {value}
@@ -160,10 +165,10 @@ export function Members() {
           <div className="mt-12 space-y-12">
             {groups.map(({ role, list }) => (
               <div key={role}>
-                <h3 className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em]">
-                  <span aria-hidden="true" className={cn('h-2 w-2 rotate-45', ROLE_STYLE[role].bar)} />
+                <h3 className="mb-5 flex items-center gap-3 font-display text-sm uppercase tracking-[0.2em]">
+                  <span aria-hidden="true" className={cn('hex h-3.5 w-3', ROLE_STYLE[role].bar)} />
                   <span className={ROLE_STYLE[role].text}>{role}</span>
-                  <span className="text-mute">{list.length}</span>
+                  <span className="font-sans text-xs text-mute">{list.length}</span>
                   <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-line to-transparent" />
                 </h3>
                 <ul className={cn('grid gap-2.5 sm:gap-3', ROLE_STYLE[role].grid)}>

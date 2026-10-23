@@ -12,10 +12,11 @@ export default {
         mute: '#6c7a95',
         cyan: '#2fd3ff',
         blue: '#4d86ff',
+        violet: '#7c5cff',
         discord: { DEFAULT: '#5865f2', dark: '#4752c4' },
       },
       fontFamily: {
-        display: ['"Barlow Condensed"', 'Arial Narrow', 'sans-serif'],
+        display: ['"Russo One"', 'Arial Black', 'sans-serif'],
         sans: ['Inter', 'system-ui', 'Segoe UI', 'sans-serif'],
       },
     },

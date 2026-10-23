@@ -5,8 +5,9 @@
 export const site = {
   name: 'JAYA E-SPORT',
 
-  // Simpan file logo resmi di folder public/ dengan nama ini.
-  logo: '/logo.png',
+  // File logo di folder public/. logo.webp = versi ringan dari logo.png (asli).
+  // Ganti logo: timpa file ini, atau ubah path-nya (mis. '/logo.png').
+  logo: '/logo.webp',
 
   // Label kecil di atas judul utama.
   label: 'Gaming Circle',

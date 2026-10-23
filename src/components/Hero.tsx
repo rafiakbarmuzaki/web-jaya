@@ -3,7 +3,7 @@ import { discord, external } from '../socials';
 import { cn } from '../utils';
 import { ArrowDownIcon, DiscordIcon } from './Icons';
 import { Logo, useLogoStatus } from './Logo';
-import { Brackets, Cross } from './Ornaments';
+import { Brackets, Circuit, HexFrame, Wing } from './Ornaments';
 import { Wordmark } from './Wordmark';
 
 export function Hero() {
@@ -11,38 +11,29 @@ export function Hero() {
 
   return (
     <section id="home" aria-label={site.name} className="relative isolate overflow-hidden">
-      {/* Background ornaments */}
-      <div aria-hidden="true" className="ornament-glow absolute inset-0 -z-10" />
-      <div aria-hidden="true" className="ornament-grid absolute inset-0 -z-10" />
-      <div aria-hidden="true" className="absolute -left-16 top-1/3 -z-10 hidden h-64 w-40 -skew-x-[20deg] border-r border-cyan/20 bg-gradient-to-r from-transparent to-blue/[0.06] md:block" />
-      <div aria-hidden="true" className="absolute -right-16 top-1/4 -z-10 hidden h-80 w-40 skew-x-[20deg] border-l border-cyan/20 bg-gradient-to-l from-transparent to-blue/[0.06] md:block" />
+      {/* Background: nebula light, stars and honeycomb from the logo */}
+      <div aria-hidden="true" className="ornament-nebula absolute inset-0 -z-10" />
+      <div aria-hidden="true" className="ornament-stars absolute inset-0 -z-10" />
+      <div aria-hidden="true" className="ornament-stars twinkle absolute inset-0 -z-10 [background-position:140px_96px]" />
+      <div aria-hidden="true" className="ornament-hex absolute inset-0 -z-10" />
+      <Circuit className="absolute bottom-6 left-0 -z-10 hidden w-60 text-cyan/30 md:block" />
+      <Circuit className="absolute right-0 top-6 -z-10 hidden w-48 -scale-x-100 text-violet/40 md:block" />
 
-      <div className="wrap py-16 sm:py-20 md:py-24">
-        <div className="relative mx-auto flex max-w-4xl flex-col items-center px-6 py-12 text-center sm:px-12 sm:py-16">
-          <Brackets />
-          <Cross className="-left-1.5 top-1/2 hidden sm:block" />
-          <Cross className="-right-1.5 top-1/2 hidden sm:block" />
-
-          {hasLogo && <Logo className="mb-8 h-36 w-auto max-w-full sm:h-44 md:h-56" />}
-
-          <p className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-cyan">
-            <span className="ornament-stripes h-2.5 w-8" aria-hidden="true" />
+      <div className={cn('wrap grid items-center gap-12 py-14 sm:py-20 lg:py-24', hasLogo && 'lg:grid-cols-[1.05fr_1fr] lg:gap-10')}>
+        <div className={cn('order-2 text-center', hasLogo && 'lg:order-1 lg:text-left')}>
+          <p className="inline-flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.35em] text-cyan">
+            <Wing className="h-5 w-10" />
             {site.label}
-            <span className="ornament-stripes h-2.5 w-8" aria-hidden="true" />
+            <Wing flip className="h-5 w-10" />
           </p>
 
-          <h1
-            className={cn(
-              'mt-5 font-display font-extrabold uppercase leading-[0.85] tracking-tight',
-              hasLogo ? 'text-[clamp(3rem,9vw,6rem)]' : 'text-[clamp(3.5rem,13vw,8.5rem)]',
-            )}
-          >
-            <Wordmark />
+          <h1 className="mt-5 font-display text-[clamp(3rem,10vw,6.5rem)] uppercase leading-[0.95]">
+            <Wordmark stacked />
           </h1>
 
-          <p className="mt-6 max-w-lg text-lg text-dim sm:text-xl">{site.heroText}</p>
+          <p className={cn('mx-auto mt-6 max-w-md text-lg text-dim sm:text-xl', hasLogo && 'lg:mx-0')}>{site.heroText}</p>
 
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
+          <div className={cn('mt-10 flex flex-wrap justify-center gap-3', hasLogo && 'lg:justify-start')}>
             <a href="#members" className="btn bg-cyan text-ink hover:bg-white">
               Lihat Member
               <ArrowDownIcon className="h-4 w-4" />
@@ -55,9 +46,22 @@ export function Hero() {
             )}
           </div>
         </div>
+
+        {hasLogo && (
+          <div className="order-1 flex justify-center lg:order-2">
+            <div className="relative aspect-square w-60 sm:w-72 lg:w-[25rem]">
+              <HexFrame className="-inset-[16%]" />
+              <div aria-hidden="true" className="absolute inset-[10%] rounded-full bg-blue/30 blur-3xl" />
+              <div className="relative h-full w-full">
+                <Logo className="h-full w-full border border-blue/40 shadow-[0_0_70px_-12px_rgba(77,134,255,0.75)]" />
+                <Brackets className="-inset-3" />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
-      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyan/50 to-transparent" />
+      <div aria-hidden="true" className="absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-cyan/60 to-transparent" />
     </section>
   );
 }

@@ -7,11 +7,12 @@ import { Wordmark } from './Wordmark';
 export function Footer() {
   return (
     <footer className="relative overflow-hidden border-t border-line">
+      <div aria-hidden="true" className="ornament-stars absolute inset-0 opacity-50" />
       <div className="wrap relative z-10 flex flex-col gap-6 py-10 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex items-center gap-3">
-          <Logo className="h-10 w-auto" />
+          <Logo className="h-12 w-12 rounded-md" />
           <div>
-            <p className="font-display text-xl font-bold uppercase tracking-wide">
+            <p className="font-display text-lg uppercase tracking-wide">
               <Wordmark />
             </p>
             <p className="text-sm text-mute">
@@ -41,7 +42,7 @@ export function Footer() {
       </div>
 
       {/* Giant outlined name peeking from the bottom */}
-      <p aria-hidden="true" className="text-outline pointer-events-none -mb-[0.28em] select-none whitespace-nowrap text-center font-display text-[18vw] font-extrabold uppercase leading-none">
+      <p aria-hidden="true" className="text-outline pointer-events-none -mb-[0.22em] select-none whitespace-nowrap text-center font-display text-[10.5vw] uppercase leading-none">
         {site.name}
       </p>
     </footer>
