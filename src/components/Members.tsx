@@ -1,0 +1,181 @@
+import { useMemo, useState } from 'react';
+import { members } from '../data/members';
+import type { Member, Role } from '../data/members';
+import { asset, cn } from '../utils';
+import { SearchIcon } from './Icons';
+import { SectionHeading } from './SectionHeading';
+
+const ROLES: Role[] = ['CEO', 'Admin', 'Member'];
+type Filter = 'All' | Role;
+
+const ROLE_STYLE: Record<Role, { text: string; avatar: string; chip: string; bar: string; grid: string; featured: boolean }> = {
+  CEO: {
+    text: 'text-cyan',
+    avatar: 'bg-cyan/15 text-cyan ring-cyan/50',
+    chip: 'bg-cyan/10 text-cyan',
+    bar: 'bg-cyan',
+    grid: 'grid-cols-1 sm:grid-cols-3',
+    featured: true,
+  },
+  Admin: {
+    text: 'text-blue',
+    avatar: 'bg-blue/15 text-blue ring-blue/50',
+    chip: 'bg-blue/10 text-blue',
+    bar: 'bg-blue',
+    grid: 'grid-cols-2 lg:grid-cols-4',
+    featured: true,
+  },
+  Member: {
+    text: 'text-dim',
+    avatar: 'bg-white/[0.06] text-dim ring-white/10',
+    chip: 'bg-white/5 text-dim',
+    bar: 'bg-white/20',
+    grid: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
+    featured: false,
+  },
+};
+
+function initials(name: string): string {
+  const parts = name.trim().split(/\s+/);
+  const last = parts[parts.length - 1] ?? '';
+  // "Member 07" → "M07" so numbered placeholders stay distinguishable.
+  if (parts.length > 1 && /^\d+$/.test(last)) return parts[0][0].toUpperCase() + last;
+  return parts.length > 1 ? (parts[0][0] + last[0]).toUpperCase() : name.slice(0, 2).toUpperCase();
+}
+
+function Avatar({ member, large }: { member: Member; large: boolean }) {
+  const cls = cn(large ? 'h-12 w-12 text-base' : 'h-9 w-9 text-xs', 'shrink-0 rounded-full ring-1', ROLE_STYLE[member.role].avatar);
+  if (member.photo) {
+    return <img src={asset(member.photo)} alt="" loading="lazy" decoding="async" className={cn(cls, 'object-cover')} />;
+  }
+  return (
+    <span aria-hidden="true" className={cn(cls, 'flex items-center justify-center font-display font-bold tracking-wide')}>
+      {initials(member.name)}
+    </span>
+  );
+}
+
+function MemberTile({ member }: { member: Member }) {
+  const style = ROLE_STYLE[member.role];
+  return (
+    <li
+      className={cn(
+        'relative flex min-w-0 items-center gap-3 border border-line bg-panel',
+        style.featured ? 'notch px-4 py-4 sm:px-5' : 'rounded-md px-3 py-2.5',
+      )}
+    >
+      {style.featured && <span aria-hidden="true" className={cn('absolute inset-y-3 left-0 w-0.5', style.bar)} />}
+      <Avatar member={member} large={style.featured} />
+      <div className="min-w-0 flex-1">
+        <p className={cn('truncate font-semibold text-white', style.featured ? 'text-base' : 'text-sm')} title={member.name}>
+          {member.name}
+        </p>
+        <p className="mt-1 flex min-w-0 items-center gap-2 text-xs text-mute">
+          <span className={cn('shrink-0 rounded-sm px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider', style.chip)}>{member.role}</span>
+          {member.gamingId && <span className="truncate font-mono">{member.gamingId}</span>}
+        </p>
+      </div>
+    </li>
+  );
+}
+
+const counts = Object.fromEntries(ROLES.map((r) => [r, members.filter((m) => m.role === r).length])) as Record<Role, number>;
+
+export function Members() {
+  const [filter, setFilter] = useState<Filter>('All');
+  const [query, setQuery] = useState('');
+
+  const groups = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    const match = (m: Member) => !q || m.name.toLowerCase().includes(q) || (m.gamingId ?? '').toLowerCase().includes(q);
+    return ROLES.filter((r) => filter === 'All' || filter === r)
+      .map((role) => ({ role, list: members.filter((m) => m.role === role && match(m)) }))
+      .filter((g) => g.list.length > 0);
+  }, [filter, query]);
+
+  const shown = groups.reduce((n, g) => n + g.list.length, 0);
+  const filters: { value: Filter; n: number }[] = [{ value: 'All', n: members.length }, ...ROLES.map((r) => ({ value: r, n: counts[r] }))];
+  const reset = () => {
+    setQuery('');
+    setFilter('All');
+  };
+
+  return (
+    <section id="members" aria-labelledby="members-title" className="py-20 md:py-28">
+      <div className="wrap relative">
+        <span aria-hidden="true" className="text-outline pointer-events-none absolute -top-6 right-4 hidden select-none font-display text-[10rem] font-extrabold leading-none sm:right-6 lg:right-8 lg:block">
+          {members.length}
+        </span>
+
+        <SectionHeading id="members-title" label="Members" title="Daftar Member">
+          {members.length} orang · {ROLES.map((r) => `${counts[r]} ${r}`).join(' · ')}
+        </SectionHeading>
+
+        <div className="mt-10 flex flex-col gap-2 rounded-lg border border-line bg-panel/70 p-2 sm:flex-row sm:items-center sm:justify-between">
+          <div className="relative sm:w-80">
+            <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-mute" />
+            <input
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Cari nama atau gaming ID"
+              aria-label="Cari member"
+              className="h-10 w-full rounded-md border border-line bg-ink pl-9 pr-3 text-sm text-white placeholder:text-mute focus:border-cyan/60 focus:outline-none"
+            />
+          </div>
+          <div role="group" aria-label="Filter peran" className="flex gap-1">
+            {filters.map(({ value, n }) => {
+              const active = filter === value;
+              return (
+                <button
+                  key={value}
+                  type="button"
+                  onClick={() => setFilter(value)}
+                  aria-pressed={active}
+                  className={cn(
+                    'flex h-10 flex-1 items-center justify-center gap-1.5 rounded-md px-2 text-sm font-medium transition-colors sm:flex-none sm:px-4',
+                    active ? 'bg-cyan/10 text-white ring-1 ring-inset ring-cyan/50' : 'text-dim hover:bg-white/5 hover:text-white',
+                  )}
+                >
+                  {value}
+                  <span className={cn('hidden text-xs sm:inline', active ? 'text-cyan' : 'text-mute')}>{n}</span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <p className="sr-only" aria-live="polite">
+          {shown} member ditampilkan
+        </p>
+
+        {groups.length === 0 ? (
+          <div className="mt-8 rounded-lg border border-dashed border-line px-6 py-12 text-center">
+            <p className="text-dim">{query ? `Nggak ada member yang cocok dengan “${query}”.` : `Belum ada member dengan peran ${filter}.`}</p>
+            <button type="button" onClick={reset} className="mt-4 text-sm font-medium text-cyan underline-offset-4 hover:underline">
+              Reset pencarian
+            </button>
+          </div>
+        ) : (
+          <div className="mt-12 space-y-12">
+            {groups.map(({ role, list }) => (
+              <div key={role}>
+                <h3 className="mb-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.25em]">
+                  <span aria-hidden="true" className={cn('h-2 w-2 rotate-45', ROLE_STYLE[role].bar)} />
+                  <span className={ROLE_STYLE[role].text}>{role}</span>
+                  <span className="text-mute">{list.length}</span>
+                  <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-line to-transparent" />
+                </h3>
+                <ul className={cn('grid gap-2.5 sm:gap-3', ROLE_STYLE[role].grid)}>
+                  {list.map((m, i) => (
+                    <MemberTile key={`${i}-${m.name}`} member={m} />
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
