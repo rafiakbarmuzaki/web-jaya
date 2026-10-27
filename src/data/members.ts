@@ -46,7 +46,7 @@ export const members: Member[] = [
   { name: 'Tristan', role: 'Member' },
   { name: 'Gibran', role: 'Member' },
   { name: 'Razan', role: 'Member' },
-  { name: 'Arya Bima', role: 'Member' },
+  { name: 'Arya', role: 'Member' },
   { name: 'Adjil', role: 'Member' },
   { name: 'Wisnu', role: 'Member' },
   { name: 'Bimo', role: 'Member' },

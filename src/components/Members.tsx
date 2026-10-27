@@ -172,7 +172,7 @@ export function Members() {
               type="search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Cari nama atau gaming ID"
+              placeholder="Cari nama"
               aria-label="Cari member"
               className="h-10 w-full rounded-md border border-line bg-ink pl-9 pr-3 text-sm text-white placeholder:text-mute focus:border-cyan/60 focus:outline-none"
             />
