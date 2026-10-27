@@ -9,7 +9,7 @@ import { SearchIcon } from './Icons';
 import { Parallax } from './Parallax';
 import { SectionHeading } from './SectionHeading';
 
-const ROLES: Role[] = ['CEO', 'Admin', 'Member'];
+const ROLES: Role[] = ['CEO', 'Admin', 'Komisaris', 'Member'];
 type Filter = 'All' | Role;
 
 const ROLE_STYLE: Record<Role, { text: string; frame: string; chip: string; bar: string; grid: string; featured: boolean }> = {
@@ -27,6 +27,14 @@ const ROLE_STYLE: Record<Role, { text: string; frame: string; chip: string; bar:
     chip: 'bg-blue/10 text-wing',
     bar: 'bg-gradient-to-b from-blue to-violet',
     grid: 'grid-cols-2 lg:grid-cols-4',
+    featured: true,
+  },
+  Komisaris: {
+    text: 'text-violet',
+    frame: 'bg-gradient-to-b from-violet to-blue',
+    chip: 'bg-violet/10 text-violet',
+    bar: 'bg-gradient-to-b from-violet to-blue',
+    grid: 'grid-cols-1 sm:grid-cols-3',
     featured: true,
   },
   Member: {

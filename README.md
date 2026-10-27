@@ -36,12 +36,10 @@ Each member is one line in `src/data/members.ts`:
 { name: 'Rafi', role: 'Admin', gamingId: 'JAYA#1234', photo: '/members/rafi.jpg' },
 ```
 
-- `role` must be `'CEO'`, `'Admin'`, or `'Member'`.
+- `role` must be `'CEO'`, `'Admin'`, `'Komisaris'`, or `'Member'`.
 - `gamingId` and `photo` are optional. Without a photo, initials are shown.
 - Put photos in `public/members/`. Small square images (around 200×200 px) work best.
 - Add a line to add a member, delete a line to remove one. The total, the role counts, and the filters update automatically.
-
-The 30 starting entries (CEO 01–03, Admin 01–04, Member 01–23) are placeholders. Replace them with real names.
 
 ### Social links
 

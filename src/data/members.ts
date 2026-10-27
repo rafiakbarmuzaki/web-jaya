@@ -3,17 +3,16 @@
 //
 //  Tambah member  → tambahkan satu baris di daftar ini.
 //  Hapus member   → hapus barisnya.
-//  Ganti peran    → ubah role jadi 'CEO', 'Admin', atau 'Member'.
+//  Ganti peran    → ubah role jadi 'CEO', 'Admin', 'Komisaris', atau 'Member'.
 //
 //  Kolom opsional:
 //    gamingId: 'JAYA#1234'
 //    photo:    '/members/nama-file.jpg'   (simpan fotonya di public/members/)
 //
 //  Jumlah total dan filter peran di halaman dihitung otomatis dari daftar ini.
-//  Nama di bawah masih placeholder — ganti dengan nama asli.
 // ─────────────────────────────────────────────────────────────
 
-export type Role = 'CEO' | 'Admin' | 'Member';
+export type Role = 'CEO' | 'Admin' | 'Komisaris' | 'Member';
 
 export interface Member {
   name: string;
@@ -23,36 +22,37 @@ export interface Member {
 }
 
 export const members: Member[] = [
-  { name: 'CEO 01', role: 'CEO' },
-  { name: 'CEO 02', role: 'CEO' },
-  { name: 'CEO 03', role: 'CEO' },
+  { name: 'Bagas', role: 'CEO' },
+  { name: 'Jovan', role: 'CEO' },
+  { name: 'Rafi', role: 'CEO' },
 
-  { name: 'Admin 01', role: 'Admin' },
-  { name: 'Admin 02', role: 'Admin' },
-  { name: 'Admin 03', role: 'Admin' },
-  { name: 'Admin 04', role: 'Admin' },
+  { name: 'Rafli', role: 'Admin' },
+  { name: 'Fabian', role: 'Admin' },
+  { name: 'Theresia', role: 'Admin' },
+  { name: 'Linggar', role: 'Admin' },
 
-  { name: 'Member 01', role: 'Member' },
-  { name: 'Member 02', role: 'Member' },
-  { name: 'Member 03', role: 'Member' },
-  { name: 'Member 04', role: 'Member' },
-  { name: 'Member 05', role: 'Member' },
-  { name: 'Member 06', role: 'Member' },
-  { name: 'Member 07', role: 'Member' },
-  { name: 'Member 08', role: 'Member' },
-  { name: 'Member 09', role: 'Member' },
-  { name: 'Member 10', role: 'Member' },
-  { name: 'Member 11', role: 'Member' },
-  { name: 'Member 12', role: 'Member' },
-  { name: 'Member 13', role: 'Member' },
-  { name: 'Member 14', role: 'Member' },
-  { name: 'Member 15', role: 'Member' },
-  { name: 'Member 16', role: 'Member' },
-  { name: 'Member 17', role: 'Member' },
-  { name: 'Member 18', role: 'Member' },
-  { name: 'Member 19', role: 'Member' },
-  { name: 'Member 20', role: 'Member' },
-  { name: 'Member 21', role: 'Member' },
-  { name: 'Member 22', role: 'Member' },
-  { name: 'Member 23', role: 'Member' },
+  { name: 'Rama', role: 'Komisaris' },
+
+  { name: 'Rigen', role: 'Member' },
+  { name: 'Raihan', role: 'Member' },
+  { name: 'Fathir', role: 'Member' },
+  { name: 'Haryo', role: 'Member' },
+  { name: 'Rafi', role: 'Member' },
+  { name: 'Akbarudin', role: 'Member' },
+  { name: 'Fathan', role: 'Member' },
+  { name: 'Rendi', role: 'Member' },
+  { name: 'Elisabeth', role: 'Member' },
+  { name: 'Azka', role: 'Member' },
+  { name: 'Tristan', role: 'Member' },
+  { name: 'Gibran', role: 'Member' },
+  { name: 'Razan', role: 'Member' },
+  { name: 'Arya Bima', role: 'Member' },
+  { name: 'Adjil', role: 'Member' },
+  { name: 'Wisnu', role: 'Member' },
+  { name: 'Bimo', role: 'Member' },
+  { name: 'Sakti', role: 'Member' },
+  { name: 'Gregory', role: 'Member' },
+  { name: 'Fawwaz', role: 'Member' },
+  { name: 'Farel', role: 'Member' },
+  { name: 'Sabila', role: 'Member' },
 ];
