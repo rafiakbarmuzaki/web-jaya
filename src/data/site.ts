@@ -27,8 +27,8 @@ export const site = {
   // Isi URL lengkap (diawali https://). Biarkan kosong '' kalau belum ada —
   // link yang kosong otomatis disembunyikan.
   socials: {
-    discord: '',
-    tiktok: '',
-    instagram: '',
+    discord: 'https://discord.gg/QZuBFW5q3',
+    tiktok: 'https://www.tiktok.com/@jaya.esport72?lang=id-ID',
+    instagram: 'https://www.instagram.com/jayaesport___/',
   },
 };
