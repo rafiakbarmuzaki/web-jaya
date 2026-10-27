@@ -16,7 +16,7 @@ export const site = {
   heroText: 'Circle mabar, teman ngobrol, satu tempat buat main bareng.',
 
   // Kata-kata di pita berjalan di bawah hero.
-  ticker: ['JAYA E-SPORT', 'Mabar', 'Ngobrol', 'Main bareng', 'Gaming Circle'],
+  ticker: ['JAYA E-SPORT', 'Mabar', 'Ngobrol', 'Main bareng', 'Gaming Circle', 'Fathan Anjing'],
 
   // Paragraf bagian "About". Kalimat pertama otomatis ditebalkan.
   // Pisahkan paragraf dengan baris kosong (\n\n).
