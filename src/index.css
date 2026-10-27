@@ -393,13 +393,10 @@ html[data-intro='on'] :is(.rise, .rise-zoom, .rise-down, .rise-impact) { animati
   to { transform: translateX(300%); }
 }
 
-/* Feathers of the logo's wing ripple with light */
-.feather { animation: feather 2.8s ease-in-out infinite; }
-@keyframes feather { 50% { opacity: calc(var(--o) * 0.5); } }
-
 /* Data packets run along the circuit traces and the nodes ping (Circuit in Ornaments.tsx) */
 .circuit-pulse { stroke-dasharray: 8 192; opacity: 0; animation: circuit-pulse 3.6s linear infinite; }
 .circuit-ping { transform-box: fill-box; transform-origin: center; opacity: 0; animation: circuit-ping 3.6s ease-out infinite; }
+[data-off] :is(.circuit-pulse, .circuit-ping) { animation-play-state: paused; }
 @keyframes circuit-pulse {
   from { stroke-dashoffset: 8; opacity: 1; }
   55% { stroke-dashoffset: -100; opacity: 1; }

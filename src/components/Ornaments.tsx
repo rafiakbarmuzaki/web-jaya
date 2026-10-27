@@ -1,5 +1,4 @@
 import { useEffect, useId, useRef } from 'react';
-import type { CSSProperties } from 'react';
 import { clamp, reducedMotion } from '../motion';
 import { cn } from '../utils';
 
@@ -36,9 +35,8 @@ export function Wing({ className, flip }: { className?: string; flip?: boolean }
           <stop offset="1" stopColor="#8fdfff" />
         </linearGradient>
       </defs>
-      {/* A ripple of light runs down the feathers (.feather in index.css) */}
       {feathers.map((d, i) => (
-        <path key={i} d={d} fill={`url(#${id})`} opacity={1 - i * 0.14} className="feather" style={{ '--o': 1 - i * 0.14, animationDelay: `${i * 0.18}s` } as CSSProperties} />
+        <path key={i} d={d} fill={`url(#${id})`} opacity={1 - i * 0.14} />
       ))}
     </svg>
   );
@@ -54,8 +52,17 @@ const NODES = [
 
 /** Circuit traces like the ones inside the logo's shield, with data packets running along them. Uses currentColor. */
 export function Circuit({ className }: { className?: string }) {
+  const ref = useRef<SVGSVGElement>(null);
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || !("IntersectionObserver" in window)) return;
+    // Off screen, the packets and pings stop instead of burning CPU.
+    const io = new IntersectionObserver(([e]) => el.toggleAttribute("data-off", !e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   return (
-    <svg aria-hidden="true" viewBox="0 0 220 140" fill="none" className={cn('pointer-events-none', className)}>
+    <svg ref={ref} aria-hidden="true" viewBox="0 0 220 140" fill="none" className={cn('pointer-events-none', className)}>
       <g stroke="currentColor" strokeWidth="1.5">
         {TRACES.map((d) => (
           <path key={d} d={d} />
