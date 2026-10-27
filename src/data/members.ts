@@ -33,7 +33,7 @@ export const members: Member[] = [
 
   { name: 'Rama', role: 'Komisaris' },
 
-  { name: 'Rigen', role: 'Member' },
+  { name: 'Rangga', role: 'Member' },
   { name: 'Raihan', role: 'Member' },
   { name: 'Fathir', role: 'Member' },
   { name: 'Haryo', role: 'Member' },
