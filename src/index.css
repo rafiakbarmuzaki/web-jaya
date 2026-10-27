@@ -9,14 +9,14 @@
     scroll-padding-top: 4rem;
   }
   body {
-    @apply bg-ink font-sans text-white antialiased;
+    @apply bg-ink font-sans text-frost antialiased;
   }
   :focus-visible {
     outline: 2px solid theme('colors.cyan');
     outline-offset: 2px;
   }
   ::selection {
-    background: rgb(47 211 255 / 0.3);
+    background: rgb(143 223 255 / 0.3);
   }
 }
 
@@ -25,40 +25,54 @@
     @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
   }
   .btn {
-    @apply inline-flex h-12 items-center justify-center gap-2 px-6 text-sm font-semibold uppercase tracking-wider transition-colors;
+    @apply relative inline-flex h-12 items-center justify-center gap-2 overflow-hidden px-6 text-sm font-semibold uppercase tracking-wider transition-colors;
     clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+  }
+  /* A glint sweeps across on hover */
+  .btn::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(105deg, transparent 35%, rgb(255 255 255 / 0.45) 50%, transparent 65%);
+    transform: translateX(-120%);
+  }
+  .btn:hover::after {
+    transform: translateX(120%);
+    transition: transform 0.75s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
 }
 
 /* ── Logo-inspired ornaments ───────────────────────────────── */
 
-/* Silver lettering with a blue edge, like the logo's "JAYA E-SPORT" */
+/* Silver lettering like the logo's "JAYA E-SPORT": bright top half, lavender-silver
+   lower half, a navy edge and an icy neon glow. */
 .text-chrome {
   display: inline-block;
-  background: linear-gradient(180deg, #ffffff 0%, #eef3fb 40%, #a6b6d4 52%, #dce5f4 72%, #ffffff 100%);
+  background: linear-gradient(180deg, #ffffff 0%, #f4f3fc 46%, #c3c2d6 54%, #d6d5e4 78%, #f0eff9 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
-  filter: drop-shadow(0 0.045em 0 #2350c8) drop-shadow(0 0 0.4em rgb(77 134 255 / 0.45));
+  filter: drop-shadow(0 0.04em 0 #1a1b3a) drop-shadow(0 0 0.03em #3d4ba1) drop-shadow(0 0 0.35em rgb(143 223 255 / 0.35));
 }
 
 /* Blue/violet nebula light, like the logo background */
 .ornament-nebula {
   background:
-    radial-gradient(ellipse 45% 55% at 78% 45%, rgb(77 134 255 / 0.22), transparent 70%),
-    radial-gradient(ellipse 35% 45% at 92% 20%, rgb(124 92 255 / 0.18), transparent 70%),
-    radial-gradient(ellipse 40% 40% at 10% 90%, rgb(47 211 255 / 0.08), transparent 70%);
+    radial-gradient(ellipse 45% 55% at 78% 45%, rgb(95 130 224 / 0.24), transparent 70%),
+    radial-gradient(ellipse 35% 45% at 92% 20%, rgb(139 108 240 / 0.2), transparent 70%),
+    radial-gradient(ellipse 40% 40% at 10% 90%, rgb(143 223 255 / 0.08), transparent 70%);
 }
 
 /* Static starfield */
 .ornament-stars {
   background-image:
     radial-gradient(1px 1px at 22px 34px, rgb(255 255 255 / 0.7), transparent),
-    radial-gradient(1px 1px at 130px 86px, rgb(170 200 255 / 0.6), transparent),
+    radial-gradient(1px 1px at 130px 86px, rgb(163 180 240 / 0.6), transparent),
     radial-gradient(1.5px 1.5px at 214px 168px, rgb(255 255 255 / 0.55), transparent),
-    radial-gradient(1px 1px at 64px 214px, rgb(150 180 255 / 0.5), transparent),
+    radial-gradient(1px 1px at 64px 214px, rgb(143 223 255 / 0.5), transparent),
     radial-gradient(1px 1px at 268px 42px, rgb(255 255 255 / 0.45), transparent),
-    radial-gradient(1.5px 1.5px at 176px 236px, rgb(124 92 255 / 0.7), transparent);
+    radial-gradient(1.5px 1.5px at 176px 236px, rgb(139 108 240 / 0.7), transparent);
   background-size: 300px 260px;
 }
 .twinkle {
@@ -71,7 +85,7 @@
 
 /* Honeycomb from the logo's hexagon shield */
 .ornament-hex {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%234d86ff' stroke-opacity='0.09'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%234d86ff' stroke-opacity='0.09'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='100' viewBox='0 0 56 100'%3E%3Cpath d='M28 66L0 50L0 16L28 0L56 16L56 50L28 66L28 100' fill='none' stroke='%235f82e0' stroke-opacity='0.09'/%3E%3Cpath d='M28 0L28 34L0 50L0 84L28 100L56 84L56 50L28 34' fill='none' stroke='%235f82e0' stroke-opacity='0.09'/%3E%3C/svg%3E");
   mask-image: radial-gradient(ellipse 70% 70% at 50% 40%, #000 15%, transparent 75%);
 }
 
@@ -86,22 +100,414 @@
 
 .text-outline {
   color: transparent;
-  -webkit-text-stroke: 1px rgb(120 150 220 / 0.16);
+  -webkit-text-stroke: 1px rgb(163 180 240 / 0.16);
 }
 
 .spin-slow {
   animation: spin 60s linear infinite;
 }
 
-.marquee {
-  animation: marquee 40s linear infinite;
-}
-@keyframes marquee {
-  to { transform: translateX(-50%); }
+@keyframes spin {
+  to { transform: rotate(360deg); }
 }
 
+/* ── Opening intro (src/components/Intro.tsx) ─────────────── */
+
+.intro-gate {
+  position: absolute;
+  inset-inline: 0;
+  height: 50.5%;
+  overflow: hidden;
+  background: theme('colors.ink');
+  transition: transform 0.95s cubic-bezier(0.75, 0, 0.2, 1) 0.15s, box-shadow 0.3s;
+}
+.intro-gate-top { top: 0; }
+.intro-gate-bottom { bottom: 0; }
+
+.intro-seam {
+  position: absolute;
+  inset-inline: 0;
+  top: 50%;
+  height: 2px;
+  margin-top: -1px;
+  background: linear-gradient(90deg, transparent, #8fdfff 20%, #fff 50%, #8fdfff 80%, transparent);
+  box-shadow: 0 0 24px 4px rgb(143 223 255 / 0.55);
+  transform: scaleX(0);
+  opacity: 0;
+}
+
+.intro-stage {
+  transition: opacity 0.4s ease-in, transform 0.6s ease-in, filter 0.4s ease-in;
+}
+
+/* Exit: flash a seam across the middle, then split the gates */
+.intro[data-phase='out'] { pointer-events: none; }
+.intro[data-phase='out'] .intro-stage { opacity: 0; transform: scale(1.12); filter: blur(6px); }
+.intro[data-phase='out'] .intro-seam { animation: intro-seam 0.7s ease-out both; }
+.intro[data-phase='out'] .intro-gate-top { transform: translateY(-100%); box-shadow: inset 0 -2px 0 #8fdfff, 0 4px 30px rgb(143 223 255 / 0.45); }
+.intro[data-phase='out'] .intro-gate-bottom { transform: translateY(100%); box-shadow: inset 0 2px 0 #8fdfff, 0 -4px 30px rgb(143 223 255 / 0.45); }
+
+.intro-draw {
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  filter: drop-shadow(0 0 4px rgb(143 223 255 / 0.8));
+  animation: intro-draw 1.1s cubic-bezier(0.6, 0, 0.2, 1) 0.1s forwards;
+}
+.intro-ring { animation: intro-fade 0.8s ease-out 0.6s both, spin 14s linear infinite; }
+.intro-rays {
+  background: repeating-conic-gradient(rgb(95 130 224 / 0.13) 0 5deg, transparent 5deg 15deg);
+  mask-image: radial-gradient(closest-side, #000 20%, transparent);
+  animation: intro-fade 1s ease-out 0.5s both, spin 40s linear infinite;
+}
+.intro-logo {
+  mask-image: radial-gradient(#000 68%, transparent);
+  animation: intro-logo 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s both;
+}
+.intro-pulse { opacity: 0; animation: intro-pulse 1.1s ease-out 0.95s; }
+.intro-letter { display: inline-block; animation: intro-letter 0.6s cubic-bezier(0.2, 0.9, 0.3, 1.25) both; }
+.intro-label { animation: intro-label 0.9s ease-out 1.8s both; }
+.intro-loader { animation: intro-fade 0.5s ease-out 0.2s both; }
+.intro-hint { animation: intro-blink 1.6s ease-in-out 1.4s infinite both; }
+
+/* The blast as the gates open: a flash, two shock rings and a spray of sparks (markup in Intro.tsx) */
+.intro-boom { pointer-events: none; }
+.intro-boom > * { position: absolute; opacity: 0; }
+.intro-flash {
+  width: 120vmax;
+  height: 120vmax;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgb(255 255 255 / 0.85), rgb(143 223 255 / 0.45) 30%, transparent 70%);
+}
+.intro-shock {
+  width: 30vmin;
+  height: 30vmin;
+  border-radius: 9999px;
+  border: 2px solid #8fdfff;
+  box-shadow: 0 0 30px 4px rgb(143 223 255 / 0.5), inset 0 0 30px rgb(143 223 255 / 0.4);
+}
+.intro-shock-late {
+  border-color: #8b6cf0;
+  box-shadow: 0 0 30px 4px rgb(139 108 240 / 0.5), inset 0 0 30px rgb(139 108 240 / 0.4);
+}
+.intro-spark {
+  width: 2px;
+  height: 22px;
+  border-radius: 2px;
+  background: linear-gradient(#fff, #8fdfff);
+  box-shadow: 0 0 8px rgb(143 223 255 / 0.9);
+}
+.intro[data-phase='out'] .intro-flash { animation: intro-flash 0.9s ease-out both; }
+.intro[data-phase='out'] .intro-shock { animation: intro-shock 1.1s cubic-bezier(0.1, 0.6, 0.2, 1) both; }
+.intro[data-phase='out'] .intro-shock-late { animation-delay: 0.12s; }
+.intro[data-phase='out'] .intro-spark { animation: intro-spark 0.95s cubic-bezier(0.1, 0.7, 0.2, 1) both; } /* --a angle and --k reach are set per spark */
+
+@keyframes intro-flash {
+  from { opacity: 0.9; transform: scale(0.05); }
+  to { opacity: 0; transform: scale(1); }
+}
+@keyframes intro-shock {
+  from { opacity: 1; transform: scale(0.1); }
+  to { opacity: 0; transform: scale(7); }
+}
+@keyframes intro-spark {
+  from { opacity: 1; transform: rotate(var(--a)) translateY(0) scaleY(0.4); }
+  to { opacity: 0; transform: rotate(var(--a)) translateY(calc(var(--k) * -60vmax)) scaleY(2.4); }
+}
+
+@keyframes intro-draw { to { stroke-dashoffset: 0; } }
+@keyframes intro-fade { from { opacity: 0; } }
+@keyframes intro-logo {
+  from { opacity: 0; transform: scale(1.4); filter: blur(16px) brightness(2.2); }
+  55% { opacity: 1; filter: blur(0) brightness(1.7); }
+  to { opacity: 1; transform: scale(1); filter: none; }
+}
+@keyframes intro-pulse {
+  from { opacity: 0.9; transform: scale(0.7); }
+  to { opacity: 0; transform: scale(1.9); }
+}
+@keyframes intro-letter {
+  from { opacity: 0; transform: translateY(-0.6em) scale(1.4); }
+}
+@keyframes intro-label {
+  from { opacity: 0; letter-spacing: 1em; }
+}
+@keyframes intro-blink {
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.9; }
+}
+@keyframes intro-seam {
+  from { transform: scaleX(0); opacity: 1; }
+  35% { transform: scaleX(1); opacity: 1; }
+  to { transform: scaleX(1); opacity: 0; }
+}
+
+/* Entrance of header + hero. Paused (and hidden) while the intro is on screen,
+   so they play as the gates open. */
+.rise, .rise-zoom, .rise-down {
+  animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms) both; /* set the delay with [--d:200ms] */
+}
+.rise-zoom { animation-name: rise-zoom; animation-duration: 1.2s; }
+.rise-down { animation-name: rise-down; }
+html[data-intro='on'] :is(.rise, .rise-zoom, .rise-down, .rise-impact) { animation-play-state: paused; }
+@keyframes rise { from { opacity: 0; transform: translateY(28px); } }
+@keyframes rise-zoom { from { opacity: 0; transform: scale(0.85); } }
+@keyframes rise-down { from { opacity: 0; transform: translateY(-100%); } }
+
+/* ── Scroll reveals (useReveal in src/motion.ts) ─────────────
+   Hidden until the element has been seen, then it plays once. The `backwards` fill keeps
+   things hidden through any delay and leaves nothing behind afterwards, so hover
+   transforms keep working. */
+
+[data-reveal]:not([data-in]) { opacity: 0; }
+[data-reveal='up'][data-in] { animation: rise 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms) backwards; }
+
+/* Section heading: the label slides in, then a laser line sweeps across and uncovers the title */
+[data-reveal='heading'][data-in] .sh-label { animation: reveal-left 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+[data-reveal='heading'][data-in] .sh-title > span { animation: scan-reveal 1s cubic-bezier(0.7, 0, 0.2, 1) 0.1s backwards; }
+[data-reveal='heading'][data-in] .sh-sub { animation: rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.55s backwards; }
+.sh-title::after {
+  content: '';
+  position: absolute;
+  top: -0.08em;
+  bottom: -0.08em;
+  left: 0;
+  width: 2px;
+  background: linear-gradient(transparent, #8fdfff 25%, #fff 50%, #8fdfff 75%, transparent);
+  box-shadow: 0 0 14px 3px rgb(143 223 255 / 0.65);
+  opacity: 0;
+}
+[data-reveal='heading'][data-in] .sh-title::after { animation: scan-line 1s cubic-bezier(0.7, 0, 0.2, 1) 0.1s forwards, scan-fade 0.3s ease-out 1.1s forwards; }
+
+/* Member groups: the header slides in and its rule draws out, then the tiles cascade (delay set per tile) */
+[data-reveal='group'][data-in] h3 { animation: reveal-left 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+[data-reveal='group'][data-in] .group-rule { transform-origin: left; animation: rule-x 1.1s cubic-bezier(0.6, 0, 0.2, 1) 0.15s backwards; }
+[data-reveal='group'][data-in] .tile { animation: tile-in 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+
+/* About: the rule draws down, then the lines fade up (later paragraphs get their delay inline) */
+[data-reveal='about'][data-in] .about-rule { transform-origin: top; animation: rule-y 1.1s cubic-bezier(0.6, 0, 0.2, 1) backwards; }
+[data-reveal='about'][data-in] .about-line { animation: rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) 0.2s backwards; }
+
+/* Socials: cards slide in one after another */
+[data-reveal='stack'][data-in] li { animation: reveal-right 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+[data-reveal='stack'][data-in] li:nth-child(2) { animation-delay: 0.12s; }
+[data-reveal='stack'][data-in] li:nth-child(3) { animation-delay: 0.24s; }
+
+/* Footer name rises out of the bottom edge */
+[data-reveal='name'][data-in] { animation: rise-name 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) backwards; }
+
+@keyframes reveal-left { from { opacity: 0; transform: translateX(-28px); } }
+@keyframes reveal-right { from { opacity: 0; transform: translateX(36px); } }
+@keyframes rise-name { from { opacity: 0; transform: translateY(40%); } }
+@keyframes rule-x { from { transform: scaleX(0); } }
+@keyframes rule-y { from { transform: scaleY(0); } }
+@keyframes tile-in { from { opacity: 0; transform: translateY(24px) scale(0.94); } }
+@keyframes scan-reveal {
+  from { clip-path: inset(-0.1em 100% -0.1em 0); }
+  to { clip-path: inset(-0.1em -0.1em -0.1em 0); }
+}
+/* Same duration and easing as scan-reveal, so the line rides the edge of the uncovered text */
+@keyframes scan-line {
+  from { left: 0; opacity: 1; }
+  to { left: 100%; opacity: 1; }
+}
+@keyframes scan-fade { to { opacity: 0; } }
+
+/* ── Hero ─────────────────────────────────────────────────── */
+
+/* The title slams in: oversized and blurred, then snaps to size with a flash */
+.rise-impact { transform-origin: 25% 60%; animation: rise-impact 1.3s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms) both; }
+@keyframes rise-impact {
+  from { opacity: 0; transform: scale(1.3); filter: blur(14px) brightness(2.2); }
+  60% { opacity: 1; filter: blur(0) brightness(1.5); }
+  to { opacity: 1; transform: none; filter: none; }
+}
+
+/* A holographic glint crosses the chrome lettering now and then (Wordmark `shine`) */
+.text-chrome-shine {
+  background-image:
+    linear-gradient(105deg, transparent 38%, #8fdfff 47%, #c4b5fd 53%, transparent 62%),
+    linear-gradient(180deg, #ffffff 0%, #f4f3fc 46%, #c3c2d6 54%, #d6d5e4 78%, #f0eff9 100%);
+  background-size: 300% 100%, 100% 100%;
+  background-repeat: no-repeat;
+  animation: chrome-shine 6s ease-in-out 2.2s infinite;
+}
+@keyframes chrome-shine {
+  from { background-position: 95% 0, 0 0; }
+  35%, to { background-position: 5% 0, 0 0; }
+}
+
+/* Emblem: floats, turns to face the mouse (Tilt.tsx) and picks up a glare from it */
+.tilt { perspective: 900px; animation: float 7s ease-in-out infinite; }
+.tilt-body { transform-style: preserve-3d; transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); }
+.tilt-glare {
+  background: radial-gradient(circle at var(--gx, 50%) var(--gy, 40%), rgb(255 255 255 / 0.5), transparent 55%);
+  mix-blend-mode: soft-light;
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.tilt[data-on] .tilt-glare { opacity: 1; }
+@keyframes float { 50% { transform: translateY(-12px); } }
+
+/* Behind the emblem: slow sunburst, sonar rings, a breathing glow, two satellites.
+   (`rotate` / `scale` are used so they don't fight the translateZ these sit at.) */
+.hero-rays {
+  background: repeating-conic-gradient(rgb(95 130 224 / 0.11) 0 5deg, transparent 5deg 15deg);
+  mask-image: radial-gradient(closest-side, #000 25%, transparent);
+  animation: turn 60s linear infinite;
+}
+.sonar {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  border: 1px solid rgb(143 223 255 / 0.5);
+  opacity: 0;
+  animation: sonar 5s cubic-bezier(0.1, 0.6, 0.3, 1) infinite;
+}
+.breathe { animation: breathe 4.5s ease-in-out infinite; }
+.orbit { border-radius: 9999px; animation: spin 16s linear infinite; }
+.orbit::before {
+  content: '';
+  position: absolute;
+  top: 2.7%;
+  left: 50%;
+  width: 6px;
+  height: 6px;
+  margin-left: -3px;
+  border-radius: 9999px;
+  background: #fff;
+  box-shadow: 0 0 10px 3px rgb(143 223 255 / 0.9);
+}
+.orbit-outer { animation-duration: 24s; animation-direction: reverse; }
+.orbit-outer::before { background: #e9ddff; box-shadow: 0 0 10px 3px rgb(139 108 240 / 0.9); }
+@keyframes turn { to { rotate: 360deg; } }
+@keyframes sonar {
+  from { opacity: 0.7; transform: scale(0.75); }
+  to { opacity: 0; transform: scale(1.8); }
+}
+@keyframes breathe { 50% { opacity: 0.55; scale: 1.12; } }
+
+/* A light runs along the hero's bottom edge */
+.hero-scan { animation: hero-scan 6s ease-in-out infinite; }
+@keyframes hero-scan {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(300%); }
+}
+
+/* Feathers of the logo's wing ripple with light */
+.feather { animation: feather 2.8s ease-in-out infinite; }
+@keyframes feather { 50% { opacity: calc(var(--o) * 0.5); } }
+
+/* Data packets run along the circuit traces and the nodes ping (Circuit in Ornaments.tsx) */
+.circuit-pulse { stroke-dasharray: 8 192; opacity: 0; animation: circuit-pulse 3.6s linear infinite; }
+.circuit-ping { transform-box: fill-box; transform-origin: center; opacity: 0; animation: circuit-ping 3.6s ease-out infinite; }
+@keyframes circuit-pulse {
+  from { stroke-dashoffset: 8; opacity: 1; }
+  55% { stroke-dashoffset: -100; opacity: 1; }
+  56%, to { stroke-dashoffset: -100; opacity: 0; }
+}
+@keyframes circuit-ping {
+  from { opacity: 0.9; transform: scale(1); }
+  40%, to { opacity: 0; transform: scale(4); }
+}
+
+/* Scroll-linked drift (Parallax.tsx sets --p from -1 to 1 as the element crosses the screen) */
+.parallax { transform: translate3d(0, calc(var(--p, 0) * var(--amp, 0px)), 0); will-change: transform; }
+
+/* ── Member tiles ─────────────────────────────────────────── */
+
+.tile { isolation: isolate; transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1), border-color 0.3s; }
+.tile:hover { transform: translateY(-3px); border-color: rgb(143 223 255 / 0.3); }
+/* Light follows the cursor: a glow inside and a bright edge on the border (--mx / --my come from Members.tsx) */
+.tile::before,
+.tile::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tile::before {
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 50%), rgb(143 223 255 / 0.16), transparent 70%);
+}
+.tile::after {
+  inset: -1px;
+  padding: 1px;
+  border-radius: inherit;
+  background: radial-gradient(160px circle at var(--mx, 50%) var(--my, 50%), rgb(143 223 255 / 0.9), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  mask-composite: exclude;
+}
+.tile:hover::before,
+.tile:hover::after { opacity: 1; }
+.tile-avatar { transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1); }
+.tile:hover .tile-avatar { transform: rotateY(360deg); }
+/* A glint crosses the CEO and Admin tiles every few seconds (delay set per tile) */
+.tile-shine {
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  width: 30%;
+  pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgb(255 255 255 / 0.09), transparent);
+  transform: translateX(-150%) skewX(-18deg);
+  animation: tile-shine 7s ease-in-out infinite;
+}
+@keyframes tile-shine {
+  0%, 55% { transform: translateX(-150%) skewX(-18deg); }
+  100% { transform: translateX(450%) skewX(-18deg); }
+}
+
+/* ── Footer ───────────────────────────────────────────────── */
+
+/* A glint slides through the giant outlined name (the letters are see-through, so it shows inside them) */
+.footer-name {
+  background: linear-gradient(100deg, transparent 42%, rgb(143 223 255 / 0.5) 50%, transparent 58%) 100% 0 / 250% 100% no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: footer-sheen 9s ease-in-out infinite;
+}
+@keyframes footer-sheen {
+  from { background-position: 100% 0; }
+  60%, to { background-position: 0 0; }
+}
+
+/* ── Cursor (PageFx.tsx) ──────────────────────────────────── */
+
+.aura {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 560px;
+  height: 560px;
+  margin: -280px 0 0 -280px;
+  border-radius: 9999px;
+  background: radial-gradient(closest-side, rgb(143 223 255 / 0.13), rgb(95 130 224 / 0.06) 50%, transparent);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transition: opacity 0.4s, transform 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.aura[data-on] { opacity: 1; }
+.click-ring {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  margin: -8px 0 0 -8px;
+  border: 2px solid #8fdfff;
+  border-radius: 9999px;
+  box-shadow: 0 0 14px rgb(143 223 255 / 0.7), inset 0 0 8px rgb(143 223 255 / 0.5);
+  animation: click-ring 0.75s cubic-bezier(0.1, 0.7, 0.2, 1) forwards;
+}
+@keyframes click-ring { to { transform: scale(7); opacity: 0; } }
+
+@media (prefers-reduced-motion: reduce), print {
+  [data-reveal]:not([data-in]) { opacity: 1; }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
-  .marquee, .spin-slow, .twinkle { animation: none; }
-  *, *::before, *::after { transition: none !important; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
 }

@@ -1,8 +1,12 @@
 import { useMemo, useState } from 'react';
+import type { PointerEvent as ReactPointerEvent } from 'react';
 import { members } from '../data/members';
 import type { Member, Role } from '../data/members';
+import { useReveal } from '../motion';
 import { asset, cn } from '../utils';
+import { CountUp } from './CountUp';
 import { SearchIcon } from './Icons';
+import { Parallax } from './Parallax';
 import { SectionHeading } from './SectionHeading';
 
 const ROLES: Role[] = ['CEO', 'Admin', 'Member'];
@@ -18,18 +22,18 @@ const ROLE_STYLE: Record<Role, { text: string; frame: string; chip: string; bar:
     featured: true,
   },
   Admin: {
-    text: 'text-[#9db8ff]',
+    text: 'text-wing',
     frame: 'bg-gradient-to-b from-blue to-violet',
-    chip: 'bg-blue/10 text-[#9db8ff]',
+    chip: 'bg-blue/10 text-wing',
     bar: 'bg-gradient-to-b from-blue to-violet',
     grid: 'grid-cols-2 lg:grid-cols-4',
     featured: true,
   },
   Member: {
     text: 'text-dim',
-    frame: 'bg-[#2a3654]',
+    frame: 'bg-[#2b3768]',
     chip: 'bg-white/5 text-dim',
-    bar: 'bg-[#2a3654]',
+    bar: 'bg-[#2b3768]',
     grid: 'grid-cols-2 md:grid-cols-3 lg:grid-cols-4',
     featured: false,
   },
@@ -47,28 +51,33 @@ function initials(name: string): string {
 function Avatar({ member, large }: { member: Member; large: boolean }) {
   const style = ROLE_STYLE[member.role];
   return (
-    <span aria-hidden="true" className={cn('hex relative shrink-0', large ? 'h-14 w-12' : 'h-11 w-10', style.frame)}>
+    <span aria-hidden="true" className={cn('tile-avatar hex relative shrink-0', large ? 'h-14 w-12' : 'h-11 w-10', style.frame)}>
       <span className="hex absolute inset-[2px] flex items-center justify-center overflow-hidden bg-panel">
         {member.photo ? (
           <img src={asset(member.photo)} alt="" loading="lazy" decoding="async" className="h-full w-full object-cover" />
         ) : (
-          <span className={cn('font-display', large ? 'text-sm' : 'text-[11px]', style.text)}>{initials(member.name)}</span>
+          <span className={cn('font-display', large ? 'text-lg' : 'text-[15px]', style.text)}>{initials(member.name)}</span>
         )}
       </span>
     </span>
   );
 }
 
-function MemberTile({ member }: { member: Member }) {
+/** Tiles of a group cascade in one after another; capped so a long list doesn't take forever. */
+const cascade = (index: number) => ({ animationDelay: `${Math.min(index, 14) * 45}ms` });
+
+function MemberTile({ member, index }: { member: Member; index: number }) {
   const style = ROLE_STYLE[member.role];
   return (
     <li
       className={cn(
-        'relative flex min-w-0 items-center gap-3 border border-line bg-panel',
+        'tile relative flex min-w-0 items-center gap-3 border border-line bg-panel',
         style.featured ? 'notch px-4 py-4 sm:px-5' : 'rounded-md px-3 py-2.5',
       )}
+      style={cascade(index)}
     >
       {style.featured && <span aria-hidden="true" className={cn('absolute inset-y-3 left-0 w-0.5', style.bar)} />}
+      {style.featured && <span aria-hidden="true" className="tile-shine" style={{ animationDelay: `${index * 1.3}s` }} />}
       <Avatar member={member} large={style.featured} />
       <div className="min-w-0 flex-1">
         <p className={cn('truncate font-semibold text-white', style.featured ? 'text-base' : 'text-sm')} title={member.name}>
@@ -83,11 +92,41 @@ function MemberTile({ member }: { member: Member }) {
   );
 }
 
+/** Hands the cursor position to the tile under it, which lights up around it (.tile in index.css). */
+function trackPointer(e: ReactPointerEvent<HTMLUListElement>) {
+  const tile = (e.target as Element).closest<HTMLElement>('li');
+  if (!tile) return;
+  const box = tile.getBoundingClientRect();
+  tile.style.setProperty('--mx', `${e.clientX - box.left}px`);
+  tile.style.setProperty('--my', `${e.clientY - box.top}px`);
+}
+
+function Group({ role, list }: { role: Role; list: Member[] }) {
+  const ref = useReveal<HTMLDivElement>();
+  const style = ROLE_STYLE[role];
+  return (
+    <div ref={ref} data-reveal="group">
+      <h3 className="mb-5 flex items-center gap-3 font-display text-xl uppercase tracking-[0.15em]">
+        <span aria-hidden="true" className={cn('hex h-3.5 w-3', style.bar)} />
+        <span className={style.text}>{role}</span>
+        <span className="font-sans text-xs text-mute">{list.length}</span>
+        <span aria-hidden="true" className="group-rule h-px flex-1 bg-gradient-to-r from-line to-transparent" />
+      </h3>
+      <ul onPointerMove={trackPointer} className={cn('grid gap-2.5 sm:gap-3', style.grid)}>
+        {list.map((m, i) => (
+          <MemberTile key={`${i}-${m.name}`} member={m} index={i} />
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 const counts = Object.fromEntries(ROLES.map((r) => [r, members.filter((m) => m.role === r).length])) as Record<Role, number>;
 
 export function Members() {
   const [filter, setFilter] = useState<Filter>('All');
   const [query, setQuery] = useState('');
+  const barRef = useReveal<HTMLDivElement>();
 
   const groups = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -108,15 +147,17 @@ export function Members() {
     <section id="members" aria-labelledby="members-title" className="relative overflow-hidden py-20 md:py-28">
       <div aria-hidden="true" className="ornament-stars absolute inset-0 opacity-40" />
       <div className="wrap relative">
-        <span aria-hidden="true" className="text-outline pointer-events-none absolute -top-4 right-4 hidden select-none font-display text-[9rem] leading-none sm:right-6 lg:right-8 lg:block">
-          {members.length}
-        </span>
+        <Parallax amp={-90} className="pointer-events-none absolute -top-4 right-4 hidden sm:right-6 lg:right-8 lg:block">
+          <span aria-hidden="true" className="text-outline block select-none font-display text-[12rem] leading-none">
+            <CountUp to={members.length} />
+          </span>
+        </Parallax>
 
         <SectionHeading id="members-title" label="Members" title="Daftar Member">
           {members.length} orang · {ROLES.map((r) => `${counts[r]} ${r}`).join(' · ')}
         </SectionHeading>
 
-        <div className="mt-10 flex flex-col gap-2 rounded-lg border border-line bg-panel/80 p-2 sm:flex-row sm:items-center sm:justify-between">
+        <div ref={barRef} data-reveal="up" className="mt-10 flex flex-col gap-2 rounded-lg border border-line bg-panel/80 p-2 [--d:150ms] sm:flex-row sm:items-center sm:justify-between">
           <div className="relative sm:w-80">
             <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-mute" />
             <input
@@ -164,19 +205,7 @@ export function Members() {
         ) : (
           <div className="mt-12 space-y-12">
             {groups.map(({ role, list }) => (
-              <div key={role}>
-                <h3 className="mb-5 flex items-center gap-3 font-display text-sm uppercase tracking-[0.2em]">
-                  <span aria-hidden="true" className={cn('hex h-3.5 w-3', ROLE_STYLE[role].bar)} />
-                  <span className={ROLE_STYLE[role].text}>{role}</span>
-                  <span className="font-sans text-xs text-mute">{list.length}</span>
-                  <span aria-hidden="true" className="h-px flex-1 bg-gradient-to-r from-line to-transparent" />
-                </h3>
-                <ul className={cn('grid gap-2.5 sm:gap-3', ROLE_STYLE[role].grid)}>
-                  {list.map((m, i) => (
-                    <MemberTile key={`${i}-${m.name}`} member={m} />
-                  ))}
-                </ul>
-              </div>
+              <Group key={role} role={role} list={list} />
             ))}
           </div>
         )}

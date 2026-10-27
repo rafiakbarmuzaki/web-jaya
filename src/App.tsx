@@ -2,14 +2,21 @@ import { About } from './components/About';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Hero } from './components/Hero';
+import { Intro } from './components/Intro';
 import { Members } from './components/Members';
 import { Circuit, Ticker } from './components/Ornaments';
+import { Aura, ScrollBar } from './components/PageFx';
 import { Socials } from './components/Socials';
+import { Starfield } from './components/Starfield';
 import { site } from './data/site';
 
 export default function App() {
   return (
     <>
+      <Starfield />
+      <Intro />
+      <ScrollBar />
+      <Aura />
       <a
         href="#members"
         className="sr-only focus:not-sr-only focus:fixed focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-cyan focus:px-3 focus:py-2 focus:text-ink"

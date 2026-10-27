@@ -1,3 +1,4 @@
+import { useReveal } from '../motion';
 import { discord, external, socialLinks } from '../socials';
 import { ArrowUpRightIcon, DiscordIcon, InstagramIcon, TikTokIcon } from './Icons';
 import { SectionHeading } from './SectionHeading';
@@ -10,12 +11,13 @@ function prettyUrl(url: string): string {
 
 export function Socials() {
   const others = socialLinks.filter((l) => l.id !== 'discord');
+  const ref = useReveal<HTMLDivElement>();
 
   return (
     <section id="socials" aria-labelledby="socials-title">
       <SectionHeading id="socials-title" label="Socials" title="Ikuti Kami" />
 
-      <div className="mt-8">
+      <div ref={ref} data-reveal={socialLinks.length === 0 ? 'up' : 'stack'} className="mt-8">
         {socialLinks.length === 0 ? (
           <div className="relative overflow-hidden rounded-lg border border-dashed border-line p-6">
             <div aria-hidden="true" className="ornament-stripes absolute -right-6 -top-6 h-16 w-16 rotate-12 opacity-30" />
@@ -33,7 +35,7 @@ export function Socials() {
                 <a href={discord.url} {...external} className="notch group relative flex items-center gap-4 overflow-hidden bg-discord px-5 py-5 text-white transition-colors hover:bg-discord-dark">
                   <DiscordIcon className="h-9 w-9 shrink-0" />
                   <span className="min-w-0 flex-1">
-                    <span className="block font-display text-lg uppercase tracking-wide">Join Discord</span>
+                    <span className="block font-display text-2xl uppercase leading-none tracking-wide">Join Discord</span>
                     <span className="block truncate text-sm text-white/75">{prettyUrl(discord.url)}</span>
                   </span>
                   <ArrowUpRightIcon className="h-5 w-5 shrink-0 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />

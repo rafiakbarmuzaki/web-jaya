@@ -16,11 +16,11 @@ export function Header() {
   const close = () => setOpen(false);
 
   return (
-    <header className="sticky top-0 z-40 border-b border-line bg-ink/90 backdrop-blur-md">
+    <header className="rise-down sticky top-0 z-40 [--d:100ms] border-b border-line bg-ink/90 backdrop-blur-md">
       <div className="wrap flex h-16 items-center gap-8">
         <a href="#home" onClick={close} className="flex items-center gap-3">
           <Logo className="h-10 w-10 rounded-md" />
-          <span className="font-display text-lg uppercase tracking-wide">
+          <span className="font-display text-2xl uppercase leading-none tracking-wide">
             <Wordmark />
           </span>
         </a>
@@ -63,7 +63,7 @@ export function Header() {
           <ul className="wrap py-2">
             {NAV.map((item) => (
               <li key={item.href} className="border-b border-line/60 last:border-0">
-                <a href={item.href} onClick={close} className="flex items-center justify-between py-3.5 font-display text-base uppercase tracking-wider text-dim hover:text-white">
+                <a href={item.href} onClick={close} className="flex items-center justify-between py-3 font-display text-xl uppercase tracking-wider text-dim hover:text-white">
                   {item.label}
                   <span aria-hidden="true" className="hex h-2.5 w-2 bg-gradient-to-b from-cyan to-violet" />
                 </a>
